@@ -69,12 +69,12 @@ impl fmt::Display for InvalidLatLngError {
 ///  #### Example
 /// ```rust
 /// let encoded = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
-/// assert_eq!(polyline_codec::decode(encoded, None),
-/// vec![
+/// assert_eq!(polyline_codec::decode(encoded, None).unwrap(), vec![
 ///     (38.5, -120.2),
 ///     (40.7, -120.95),
 ///     (43.252, -126.453)
 /// ]);
+/// ```
 pub fn decode(
     encoded_path: &str,
     precision: Option<u32>,
@@ -230,6 +230,7 @@ mod tests {
             decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@", None).unwrap(),
             &[(38.5, -120.2), (40.7, -120.95), (43.252, -126.453)]
         );
+        dbg!(decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@", None).unwrap());
     }
 
     #[test]

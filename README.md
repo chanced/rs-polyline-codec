@@ -12,6 +12,35 @@ Read more at https://developers.google.com/maps/documentation/utilities/polyline
 
 I have no affiliation with Google or Google Maps. This package was ported from https://github.com/googlemaps/js-polyline-codec.
 
+
+## Example
+
+
+const encoded = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
+println!(polyline_codec::decode(encoded, 5).unwrap());
+// [
+//    LatLng(
+//        38.5,
+//        -120.2,
+//    ),
+//    LatLng(
+//        40.7,
+//        -120.95,
+//    ),
+//    LatLng(
+//        43.252,
+//        -126.453,
+//    ),
+// ]
+
+const path = [
+  (38.5, -120.2),
+  (40.7, -120.95),
+  (43.252, -126.453),
+];
+println!(polyline_codec::encode(path, 5).unwrap());
+// "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
+
 ## License
 
 MIT OR Apache v2.0
