@@ -1,5 +1,6 @@
 ![crates.io](https://img.shields.io/crates/v/polyline-codec?style=flat-square) ![docs.rs](https://img.shields.io/docsrs/polyline-codec?style=flat-square)
 ![Crates.io](https://img.shields.io/crates/l/polyline-codec?style=flat-square)
+
 # Rust port of Google Maps Polyline Encoding
 
 ## Description
@@ -14,10 +15,9 @@ Read more at https://developers.google.com/maps/documentation/utilities/polyline
 
 I have no affiliation with Google or Google Maps. This package was ported from https://github.com/googlemaps/js-polyline-codec.
 
-
 ## Example
 
-
+```rust
 const encoded = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
 println!(polyline_codec::decode(encoded, 5).unwrap());
 // [
@@ -42,6 +42,7 @@ const path = [
 ];
 println!(polyline_codec::encode(path, 5).unwrap());
 // "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
+```
 
 ## License
 
