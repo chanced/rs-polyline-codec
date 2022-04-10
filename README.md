@@ -11,3 +11,7 @@ Read more at https://developers.google.com/maps/documentation/utilities/polyline
 ## Note
 
 I have no affiliation with Google or Google Maps. This package was ported from https://github.com/googlemaps/js-polyline-codec.
+
+## License
+
+MIT OR Apache v2.0
