@@ -1,4 +1,4 @@
-![crates.io](https://img.shields.io/crates/v/polyline-codec?style=flat-square) ![docs.rs](https://img.shields.io/docsrs/polyline-codec?style=flat-square)
+[![crates.io](https://img.shields.io/crates/v/polyline-codec?style=flat-square)](https://crates.io/crates/polyline-codec) [![docs.rs](https://img.shields.io/docsrs/polyline-codec?style=flat-square)](https://docs.rs/polyline-codec)
 ![Crates.io](https://img.shields.io/crates/l/polyline-codec?style=flat-square)
 
 # Rust port of Google Maps Polyline Encoding
