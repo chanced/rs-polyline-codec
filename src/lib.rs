@@ -146,7 +146,7 @@ pub fn decode(encoded_path: &str, precision: u32) -> Result<Vec<LatLng>, Invalid
 ///     (40.7, -120.95),
 ///     (43.252, -126.453),
 /// ];
-/// assert_eq!(polyline_codec::encode(&path, None).unwrap(), "_p~iF~ps|U_ulLnnqC_mqNvxq`@");
+/// assert_eq!(polyline_codec::encode(&path, 5).unwrap(), "_p~iF~ps|U_ulLnnqC_mqNvxq`@");
 ///
 /// ```
 pub fn encode<P: Point>(path: &[P], precision: u32) -> Result<String, InvalidLatLngError> {
@@ -264,14 +264,14 @@ mod tests {
                     prop_assert_eq!(encoded, encode(&decoded, 5).unwrap());
                 }
 
-                // let encoded = encode(&[path], None);
+                // let encoded = encode(&[path], 5);
                 // if should_err {
                 //     assert!(encoded.is_err());
                 // } else {
                 //     let encoded = encoded.upwrap();
                 // }
 
-                // let decoded = decode(&encoded, None).unwrap();
+                // let decoded = decode(&encoded, 5).unwrap();
                 // prop_assert_eq!(path, decoded);
         }
     }
