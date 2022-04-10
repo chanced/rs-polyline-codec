@@ -19,7 +19,7 @@ I have no affiliation with Google or Google Maps. This package was ported from h
 
 ```rust
 const encoded = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
-println!(polyline_codec::decode(encoded, 5).unwrap());
+println!(polyline_codec::decode(encoded, Some(5)).unwrap());
 // [
 //    LatLng(
 //        38.5,
@@ -40,7 +40,7 @@ const path = [
   (40.7, -120.95),
   (43.252, -126.453),
 ];
-println!(polyline_codec::encode(path, 5).unwrap());
+println!(polyline_codec::encode(path, Some(5)).unwrap());
 // "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
 ```
 
