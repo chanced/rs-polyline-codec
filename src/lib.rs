@@ -69,17 +69,14 @@ impl fmt::Display for InvalidLatLngError {
 ///  #### Example
 /// ```rust
 /// let encoded = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
-/// assert_eq!(polyline_codec::decode(encoded, None).unwrap(), vec![
+/// assert_eq!(polyline_codec::decode(encoded, 5).unwrap(), vec![
 ///     (38.5, -120.2),
 ///     (40.7, -120.95),
 ///     (43.252, -126.453)
 /// ]);
 /// ```
-pub fn decode(
-    encoded_path: &str,
-    precision: Option<u32>,
-) -> Result<Vec<LatLng>, InvalidEncodingError> {
-    let factor = 10_i32.pow(precision.unwrap_or(5)) as f64;
+pub fn decode(encoded_path: &str, precision: u32) -> Result<Vec<LatLng>, InvalidEncodingError> {
+    let factor = 10_i32.pow(precision) as f64;
     // let encoded_path = encoded_path.encode_utf16();
     // TODO: need to see if I can just use the str len
     // let len = encoded_path.clone().count();
@@ -152,8 +149,8 @@ pub fn decode(
 /// assert_eq!(polyline_codec::encode(&path, None).unwrap(), "_p~iF~ps|U_ulLnnqC_mqNvxq`@");
 ///
 /// ```
-pub fn encode<P: Point>(path: &[P], precision: Option<u32>) -> Result<String, InvalidLatLngError> {
-    let factor = 10_f64.powf(precision.unwrap_or(5) as f64);
+pub fn encode<P: Point>(path: &[P], precision: u32) -> Result<String, InvalidLatLngError> {
+    let factor = 10_f64.powi(precision as i32);
     let transform = |p: &P| LatLng((p.lat() * factor).round(), (p.lng() * factor).round());
     polyline_encode_line(path, transform)
 }
@@ -222,34 +219,34 @@ mod tests {
     #[test]
     fn test_decodes_to_an_empty_array() {
         let v: Vec<LatLng> = vec![];
-        assert_eq!(decode("", None).unwrap(), v);
+        assert_eq!(decode("", 5).unwrap(), v);
     }
     #[test]
     fn test_decodes_a_string_into_a_vec_of_lat_lng_pairs() {
         assert_eq!(
-            decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@", None).unwrap(),
+            decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@", 5).unwrap(),
             &[(38.5, -120.2), (40.7, -120.95), (43.252, -126.453)]
         );
-        dbg!(decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@", None).unwrap());
+        dbg!(decode("_p~iF~ps|U_ulLnnqC_mqNvxq`@", 5).unwrap());
     }
 
     #[test]
     fn test_decodes_with_precision_0() {
         assert_eq!(
-            decode("mAnFC@CH", Some(0)).unwrap(),
+            decode("mAnFC@CH", 0).unwrap(),
             &[(39.0, -120.0), (41.0, -121.0), (43.0, -126.0)]
         );
     }
     #[test]
     fn test_encodes_an_empty_vec() {
         let v: Vec<LatLng> = vec![];
-        assert_eq!(encode(&v, None).unwrap(), "");
+        assert_eq!(encode(&v, 5).unwrap(), "");
     }
 
     #[test]
     fn encodes_a_vec_of_lat_lng_pairs_into_a_string() {
         assert_eq!(
-            encode(&[(38.5, -120.2), (40.7, -120.95), (43.252, -126.453)], None).unwrap(),
+            encode(&[(38.5, -120.2), (40.7, -120.95), (43.252, -126.453)], 5).unwrap(),
             "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
         );
     }
@@ -260,11 +257,11 @@ mod tests {
 
                 let should_error = path.iter().any(|p| p.0 > 90.0 || p.0 < -90.0 || p.1 > 180.0 || p.1 < -180.0);
                 if should_error {
-                    prop_assert!(encode(&path, None).is_err());
+                    prop_assert!(encode(&path, 5).is_err());
                 } else {
-                    let encoded = encode(&path, None).unwrap();
-                    let decoded = decode(&encoded, None).unwrap();
-                    prop_assert_eq!(encoded, encode(&decoded, None).unwrap());
+                    let encoded = encode(&path, 5).unwrap();
+                    let decoded = decode(&encoded, 5).unwrap();
+                    prop_assert_eq!(encoded, encode(&decoded, 5).unwrap());
                 }
 
                 // let encoded = encode(&[path], None);
@@ -286,10 +283,10 @@ mod tests {
 
             let path = vec![(p0, p1)];
             dbg!(&path);
-            let encoded = encode(&path, None).unwrap();
+            let encoded = encode(&path, 5).unwrap();
             dbg!(&encoded);
-            let decoded = decode(&encoded, None).unwrap();
-            prop_assert_eq!(encoded, encode(&decoded, None).unwrap());
+            let decoded = decode(&encoded, 5).unwrap();
+            prop_assert_eq!(encoded, encode(&decoded, 5).unwrap());
         }
     }
 }
