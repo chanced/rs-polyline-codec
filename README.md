@@ -18,30 +18,22 @@ I have no affiliation with Google or Google Maps. This package was ported from h
 ## Example
 
 ```rust
-const encoded = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
-println!(polyline_codec::decode(encoded, 5).unwrap());
-// [
-//    LatLng(
-//        38.5,
-//        -120.2,
-//    ),
-//    LatLng(
-//        40.7,
-//        -120.95,
-//    ),
-//    LatLng(
-//        43.252,
-//        -126.453,
-//    ),
-// ]
+    use polyline_codec::LatLng;
+    let encoded = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
+    assert_eq!(
+        polyline_codec::decode(encoded, 5).unwrap(),
+        vec![
+            LatLng(38.5, -120.2,),
+            LatLng(40.7, -120.95,),
+            LatLng(43.252, -126.453,),
+        ]
+    );
 
-const path = [
-  (38.5, -120.2),
-  (40.7, -120.95),
-  (43.252, -126.453),
-];
-println!(polyline_codec::encode(path, 5).unwrap());
-// "_p~iF~ps|U_ulLnnqC_mqNvxq`@"
+    let path = &[(38.5, -120.2), (40.7, -120.95), (43.252, -126.453)];
+    assert_eq!(
+        polyline_codec::encode(path, 5).unwrap(),
+        "_p~iF~ps|U_ulLnnqC_mqNvxq`@",
+    );
 ```
 
 ## License

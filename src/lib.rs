@@ -2,7 +2,7 @@ use std::{error::Error, fmt};
 
 /// LatLng is a tuple composed of latitude and longitude.
 #[derive(Debug, Clone, Copy)]
-pub struct LatLng(f64, f64);
+pub struct LatLng(pub f64, pub f64);
 
 /// `Point` contains accessors for a coordinate's latitude (`lat`) and longitude
 /// (`lng`).
